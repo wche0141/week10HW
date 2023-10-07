@@ -1,0 +1,115 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 400,
+    "title": "Tsunamis affect on earthquake",
+    "data": {
+      "url": "https://raw.githubusercontent.com/wche0141/3179/main/data/tsunami_dataset.csv"
+    },
+    "params": [
+      {
+        "name": "Region_selection",
+        "bind": {
+          "input": "select",
+          "options": [
+            null,
+            "Alaska (including Aleutian Islands)",
+            "Black Sea and Caspian Sea",
+            "Caribbean Sea",
+            "Central Africa",
+            "China, North and South Korea, Philippines, Taiwan",
+            "E Coast Australia, New Zealand, South Pacific Is.",
+            "East Coast USA and Canada, St Pierre and Miquelon",
+            "Hawaii, Johnston Atoll, Midway I",
+            "Indian Ocean (including west coast of Australia)",
+            "Indonesia (Pacific Ocean) and Malaysia",
+            "Japan",
+            "Kamchatka and Kuril Islands",
+            "Mediterranean Sea",
+            "New Caledonia, New Guinea, Solomon Is., Vanuatu",
+            "Northeast Atlantic Ocean",
+            "Northwest Atlantic Ocean",
+            "Red Sea and Persian Gulf",
+            "Southeast Atlantic Ocean",
+            "Southwest Atlantic Ocean",
+            "West Coast of Africa",
+            "West Coast of North and Central America",
+            "West Coast of South America"
+          ],
+          "labels": [
+            "Show All",
+            "Alaska (including Aleutian Islands)",
+            "Black Sea and Caspian Sea",
+            "Caribbean Sea",
+            "Central Africa",
+            "China, North and South Korea, Philippines, Taiwan",
+            "E Coast Australia, New Zealand, South Pacific Is.",
+            "East Coast USA and Canada, St Pierre and Miquelon",
+            "Hawaii, Johnston Atoll, Midway I",
+            "Indian Ocean (including west coast of Australia)",
+            "Indonesia (Pacific Ocean) and Malaysia",
+            "Japan",
+            "Kamchatka and Kuril Islands",
+            "Mediterranean Sea",
+            "New Caledonia, New Guinea, Solomon Is., Vanuatu",
+            "Northeast Atlantic Ocean",
+            "Northwest Atlantic Ocean",
+            "Red Sea and Persian Gulf",
+            "Southeast Atlantic Ocean",
+            "Southwest Atlantic Ocean",
+            "West Coast of Africa",
+            "West Coast of North and Central America",
+            "West Coast of South America"
+          ],
+          "name": "Region Selection: "
+        }
+      }
+    ],
+    "transform": [
+      {"filter": "datum.EQ_MAGNITUDE > 0"},
+      {"filter": "datum.EQ_DEPTH > 0"},
+      {
+        "filter": "Region_selection == null || datum.REGION == Region_selection"
+      }
+    ],
+    "encoding": {
+      "x": {
+        "field": "EQ_MAGNITUDE",
+        "type": "quantitative",
+        "title": "Earthquake magnitude"
+      },
+      "y": {
+        "field": "EQ_DEPTH",
+        "type": "quantitative",
+        "title": "Earthquake depth"
+      }
+    },
+    "layer": [
+      {
+        "mark": "circle",
+        "encoding": {
+          "size": {
+            "field": "TS_INTENSITY",
+            "type": "quantitative",
+            "scale": {
+              "type": "threshold",
+              "domain": [-5, 0, 5, 10],
+              "range": [10, 50, 150,200]
+            },
+            "legend": {"format": ".1s"}
+          },
+          "color": {
+            "field": "REGION",
+            "type": "nominal"
+          },
+          "opacity": {"value": 0.6},
+          "tooltip": [
+            {"field": "COUNTRY", "type": "nominal"},
+            {"field": "EQ_MAGNITUDE", "type": "quantitative", "format": ","},
+            {"field": "EQ_DEPTH", "type": "quantitative", "format": ","},
+            {"field": "TS_INTENSITY", "type": "quantitative", "format": ","}
+          ]
+        }
+      }
+    ]
+  }

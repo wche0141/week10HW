@@ -1,0 +1,38 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 450,
+  "title": "2,400 tsunamis from 2100 BC to the present in the Atlantic, Indian, and Pacific Ocean",
+  "projection": {"type": "equalEarth"},
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/wche0141/3179/main/js/ne_110m.json",
+        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+      },
+      "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/wche0141/3179/main/data/tsunami_dataset.csv"
+      },
+      "mark": {"type": "circle", "tooltip": {"content": "data"}},
+      "encoding": {
+        "longitude": {"field": "LONGITUDE", "type": "quantitative"},
+        "latitude": {"field": "LATITUDE", "type": "quantitative"},
+        "size": {
+          "field": "EQ_MAGNITUDE",
+          "type": "quantitative",
+          "title": "Magnitude",
+          "scale": {"domain": [3, 10]}
+        },
+        "color": {
+          "field": "TS_INTENSITY",
+          "type": "quantitative",
+          "title": "Intensity",
+          "scale": {"scheme": "blues"}
+        }
+      }
+    }
+  ]
+}
